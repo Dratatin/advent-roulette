@@ -1,34 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advent Calendar Roulette</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendrier de l'Avent Roulette</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-    <div class="container">
-        <h1>🎄 Advent Calendar Roulette 🎄</h1>
-        
+    <ul class="lightrope">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="roulette-wrapper">
+        <h1>🎄 La roulette de l'écolière 🎄</h1>
         <div class="roulette-container">
-            <div class="roulette-display" id="rouletteDisplay">?</div>
-            <button class="spin-button" id="spinButton">Spin the Wheel!</button>
+            <div class="roulette-display-wrapper">
+                <div class="roulette-display" id="rouletteDisplay">?</div>
+                <button class="spin-button" id="spinButton">Tourner la roue !</button>
+            </div>
             <p class="message" id="message"></p>
+            <div class="description-display" id="descriptionDisplay"></div>
         </div>
 
         <div class="remaining-numbers" id="remainingNumbers">
-            <h2>Remaining Numbers</h2>
             <div class="numbers-grid" id="numbersGrid"></div>
         </div>
-
+    </div>
+    <div class="roulette-wrapper">
         <div class="history-section" id="historySection">
-            <h2>Draw History</h2>
+            <h2>Historique des Tirages</h2>
             <ul class="history-list" id="historyList"></ul>
         </div>
 
-        <button class="reset-button" id="resetButton">Reset Calendar</button>
+        <button class="reset-button" id="resetButton">
+            Réinitialiser le Calendrier
+        </button>
     </div>
-
+    <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
