@@ -200,6 +200,9 @@ h2 {
     cursor: pointer;
     transition: all 0.3s ease;
     visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 50%;
 }
 
 @media (max-width: 600px) {
