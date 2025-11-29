@@ -19,14 +19,13 @@ jobs:
 
       - name: Create config.js from secrets
         run: |
-          echo "// Configuration file - Generated from GitHub Secrets" > config.js
-          echo "window.CONFIG = {" >> config.js
-          echo "  SUPABASE_URL: \"${{ secrets.SUPABASE_URL }}\"," >> config.js
-          echo "  SUPABASE_ANON_KEY: \"${{ secrets.SUPABASE_ANON_KEY }}\"" >> config.js
-          echo "};" >> config.js
-
-      - name: Verify config.js
-        run: cat config.js
+          cat > config.js << EOF
+          // Configuration file - Generated from GitHub Secrets
+          window.CONFIG = {
+            SUPABASE_URL: "${{ secrets.SUPABASE_URL }}",
+            SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}"
+          };
+          EOF
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
