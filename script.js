@@ -380,7 +380,7 @@
       const currentDrawCount = state.history.length;
       const drawsRemaining = currentDay - currentDrawCount;
       
-      message.textContent = `${state.remainingNumbers.length} numéros restants. Vous pouvez tirer ${drawsRemaining} fois aujourd'hui.`;
+      message.textContent = `${state.remainingNumbers.length} numéros restants. Tu peux tirer ${drawsRemaining} fois aujourd'hui.`;
       if (timerInterval) {
         clearInterval(timerInterval);
       }
