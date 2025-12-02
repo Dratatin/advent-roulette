@@ -188,7 +188,7 @@
       return -1;
     }
 
-    // Time until next midnight
+    // Time until next midnight (when a new draw becomes available)
     const tomorrow = new Date(now);
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
@@ -224,11 +224,17 @@
         timeLeft
       )}`;
       spinButton.disabled = true;
-    } else if (hasDrawnToday()) {
-      message.textContent = `⏰ Prochain tirage dans : ${formatCountdown(
-        timeLeft
-      )}`;
-      spinButton.disabled = true;
+    } else if (hasReachedDrawLimit()) {
+      const now = new Date();
+      const currentDay = now.getDate();
+      const currentDrawCount = state.history.length;
+      
+      if (currentDrawCount >= currentDay) {
+        message.textContent = `⏰ Prochain tirage dans : ${formatCountdown(
+          timeLeft
+        )}`;
+        spinButton.disabled = true;
+      }
     }
   }
 
@@ -308,14 +314,27 @@
   // Get today's date as a string (YYYY-MM-DD)
   function getTodayString() {
     const today = new Date();
-    return today.toISOString().split("T")[0];
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
-  // Check if a draw has already been made today
-  function hasDrawnToday() {
-    if (TEST_MODE) return false; // Allow multiple draws per day in test mode
+  // Check if we've reached the maximum allowed draws for the current date
+  function hasReachedDrawLimit() {
+    if (TEST_MODE) return false; // Allow unlimited draws in test mode
 
-    return state.lastDrawDate === getTodayString();
+    if (!isAdventPeriod()) return true;
+
+    const now = new Date();
+    const currentDay = now.getDate();
+    
+    // Maximum draws allowed = current day of December
+    // (e.g., on Dec 5th, you can have drawn up to 5 numbers)
+    const maxAllowedDraws = currentDay;
+    const currentDrawCount = state.history.length;
+
+    return currentDrawCount >= maxAllowedDraws;
   }
 
   // Update button state based on current conditions
@@ -351,12 +370,17 @@
       if (timerInterval) {
         clearInterval(timerInterval);
       }
-    } else if (hasDrawnToday()) {
+    } else if (hasReachedDrawLimit()) {
       spinButton.disabled = true;
       startTimer();
     } else {
       spinButton.disabled = false;
-      message.textContent = `${state.remainingNumbers.length} numéros restants.`;
+      const now = new Date();
+      const currentDay = now.getDate();
+      const currentDrawCount = state.history.length;
+      const drawsRemaining = currentDay - currentDrawCount;
+      
+      message.textContent = `${state.remainingNumbers.length} numéros restants. Vous pouvez tirer ${drawsRemaining} fois aujourd'hui.`;
       if (timerInterval) {
         clearInterval(timerInterval);
       }
@@ -453,7 +477,7 @@
     if (
       !isAdventPeriod() ||
       state.remainingNumbers.length === 0 ||
-      hasDrawnToday()
+      hasReachedDrawLimit()
     ) {
       return;
     }
@@ -479,6 +503,7 @@
         number: drawnNumber,
         date: getTodayString(),
       });
+      // Note: lastDrawDate is kept for backward compatibility but no longer used for logic
       state.lastDrawDate = getTodayString();
 
       // Save and update UI
